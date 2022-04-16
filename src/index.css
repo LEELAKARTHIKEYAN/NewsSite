@@ -5,9 +5,30 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color:#2B2B2B;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.showcase {
+  background:url('https://images.pexels.com/photos/8543172/pexels-photo-8543172.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat right/cover;
+  height:500px;
+}
+
+.showcase .overlay {
+  background-color: rgba(0,0,0,0.55);
+  height:500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+@media (min-width:1024px){
+  .showcase {
+    background:url('https://images.pexels.com/photos/8543172/pexels-photo-8543172.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1') no-repeat right/cover;
+    height:500px;
+  }
 }

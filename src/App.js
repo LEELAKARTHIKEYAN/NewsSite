@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import SearchForm from './SearchForm'
 const App = () => {
   const [articles, setArticles]= useState([])
   const [term,setTerm] = useState('everything')
@@ -10,8 +11,9 @@ const App = () => {
           const res = await fetch('https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${term}&api-key=r9M6duW8ij6UfefNumoVih4flhZUgyqw')
           
           const articles = await res.json()
-          console.log(articles.response.docs);
           setArticles(articles.response.docs)
+          console.log(articles.response.docs)
+          setIsLoading(false)
         }
     catch(error){
       console.error(error)
@@ -19,11 +21,20 @@ const App = () => {
   }
 
   fetchArticles()
-},[])
+},[term])
 
   return (
     <>
-    <section>
+    <div className="showcase">
+      <div className="overlay px-5">
+          <h1 className= "text-4xl font-bold text-white text-center mb-4 capitalize lg:text-5xl">Viewing articles about {term}</h1>
+          <SearchForm searchText={(text)=> setTerm(text)}/>
+      </div>
+
+    </div>
+
+    {isLoading ? (<h1 className="text-center mt-20 font-bold text-white">Loading...</h1>):(
+      <section className="grid grid-cols-1 gap-10 px-5 pt-10 pb-20">
       {articles.map((article) => {
         const {
           abstract,
@@ -36,21 +47,24 @@ const App = () => {
           word_count} =article
 
         return(
-          <article key={_id}>
-            <h2>{main}</h2>
+          <article key={_id} className="bg-white py-10 px-5 rounded-lg lg:w-9/12 lg:mx-auto">
+            <h2 className="font-bold text-2xl mb-5 lg:text-3xl">{main}</h2>
             <p>{abstract}</p>
-            <a href={web_url} target="_blank">Web Resource</a>
             <p>{lead_paragraph}</p>
-            <ul>
+            <ul className="my-4">
               <li>{orginal}</li>
-              <li>{news_desk}</li>
-              <li>{section_name}</li>
-              <li>{word_count}</li>
+              <li><span className="font-bold">News Desk:</span> {news_desk}</li>
+              <li><span className="font-bold">Section Name:</span> {section_name}</li>
+              <li><span className="font-bold"> Word Count: </span>{word_count}</li>
             </ul>
+            <a href={web_url} target="_blank" className="underline font-bold hover-green">View full article</a>
           </article>
         )
       })}
     </section>
+    )}
+
+    
     </>
   );
 }
